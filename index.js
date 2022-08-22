@@ -1,3 +1,5 @@
+//notes are to help me learn JavaScript better
+
 //will need to attach api calls
 
 
