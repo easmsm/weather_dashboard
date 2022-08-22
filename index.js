@@ -1,25 +1,23 @@
-//notes are to help me learn JavaScript better
-
-//will need to attach api calls
-
-
-
-
-//set up array for search history - just tell JS that it's an array by using an empty array
 var searchHistory = [];
-//api setup
+
+
 var weatherApiRootUrl = 'https://api.openweathermap.org';
 var weatherApiKey ='cf30aa7d4098c837bc982a675f853adc'; 
 
-//declare specific id's associated with index, try listing first then defining
 var searchForm = document.querySelector('#search-form');
 var searchInput = document.querySelector('#search-input');
 var searchHistoryContainer = document.querySelector('#history');
+
 //current forecast
 var todayContainer = document.querySelector('#today');
 //five-day forecast
 var forecaseContainer = document.querySelector('#forecast');
 var searchButton = document.querySelector('#search-button');
+
+
+
+
+
 
 //search
     //render - like a git 
@@ -39,16 +37,15 @@ var searchButton = document.querySelector('#search-button');
                 searchHistoryContainer.append(btn);
 
             }
-            // for (let i = 0; i < 10; i++) {}
         }
-    //append what we're searching to our history
+
+    //append
         function appendToHistory(search) {
             searchHistory.push(search);
-        //very simple memory within the browser - set searched item to local storage
-        //set something or get something CRUD
-        localStorage.setItem('search-history', JSON.stringify(searchHistory));
-        renderSearchHistory();
+            localStorage.setItem('search-history', JSON.stringify(searchHistory));
+            renderSearchHistory();
         }
+
     //init
         function initSearchHistory() {
             var storedHistory = localStorage.getItem('search-history');
@@ -65,11 +62,10 @@ var searchButton = document.querySelector('#search-button');
 
         //forecast
     //render current
-        //LARGEST PART OF THE PROJECT - openweatherapi, cards
+        //openweatherapi, cards **NEED TO GET THE WEATHER TO POST TO THE CARDS
 function renderCurrentWeather(city, weather, timezone){
-    //how the api is set up
 
-    //variable
+    //variables
     var tempF = weather.temp;
     var windMph = weather.wind_speed;
     var humidity = weather.humidity;
@@ -87,11 +83,26 @@ function renderCurrentWeather(city, weather, timezone){
 
 };
 
+// var todaysForecast = 
 function renderForecast() {
-  //will be very similar, but no uvi index for one
+  //will be very similar, but no uvi index for one - should be fine to use the same variables as the scope of var should stay within the function
+  //should render each day?
+  
+  //variables
+    var tempF = weather.temp;
+    var windMph = weather.wind_speed;
+    var humidity = weather.humidity;
+  //elements that correspond to the variables
+    var card = document.createElement('div');
+    var cardBody = document.createElement('div');
+    var heading = document.createElement('h2');
+    var tempEl = document.createElement('p');
+    var windEl = document.createElement('p');
+    var humidityEl = document.createElement('p');
 };
 
-function renderItems (city, data) {
+// var fiveDayForecast = 
+    function renderItems (city, data) {
     renderCurrentWeather(city, data);
     renderForecast(data);
 };
@@ -101,7 +112,6 @@ function renderItems (city, data) {
     function fetchWeather(location) {
         var { lat } = location;
         var { lon } = location;
-        //var { lat,long } = location;
         var city = location.name;
         var apiUrl = `${weatherApiRootUrl}/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${weatherApiKey}`;
    
@@ -138,5 +148,8 @@ function renderItems (city, data) {
                 console.log(err);
             })
     }
-                //in the global scope of the JS file, this is the only thing that runs (this goes first)
-initSearchHistory();
+    
+    searchButton.addEventListener("click", appendToHistory);
+    initSearchHistory();
+
+    // searchButton.onClick() = appendToHistory;
