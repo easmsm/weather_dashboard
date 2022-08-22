@@ -29,7 +29,7 @@
                   class="form-input weather-search"
                   type="text"
                   id="search-input"
-                  placeholder="San Diego"
+                  placeholder="Richmond"
                   aria-labelledby="form-heading"
                   aria-controls="today forecast"
                 />
@@ -51,26 +51,54 @@
         </aside>
 
         <!-- Today's Weather Section -->
-        <div class="col-lg-9 pb-3">
+        <div class="col-lg-9 pb-3" id="currentWeather">
           <section
             id="today"
             class="mt-3"
             role="region"
             aria-live="polite">
         </section>
+        <div class="col-10 border border-3">
+            <h2 class="name"></h2>
+            <h3 class="currentDay"></h3>
+            <p class="temp"></p>
+            <p class="wind"></p>
+            <p class="humidity"></p>
+            <p class="uvIndex"></p>
+        </div>
+        </div>
+
+
+
 
         <!-- 5-Day Forecast -->
+        <div class="col-lg-9 pb-3">
           <section
             id="forecast"
             class="row mt-3"
             role="region"
             aria-live="polite">
           </section>
-        </div>
-      </div>
-    </div>
+          <h2>Five Day Forecast</h2>
+          <div class="container-fluid">
+            <h3 class="text-center pr-3">5-Day Forecast</h3>
+    
+            <div class="row justify-content-center">
+    
+                <div class="col-2 "></div>
+                <div class="col-2 border"><p class="dayOne"></p></div>
+                <div class="col-2 border"><p class="dayTwo"></p></div>
+                <div class="col-2 border"><p class="dayThree"></p></div>
+                <div class="col-2 border"><p class="dayFour"></p></div>
+                <div class="col-2 border"><p class="dayFive"></p></div>
+    
+               
+                   
+            </div>
 
-    <!-- dates -->
+
+
+    <!-- date formatting -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"
       integrity="sha512-0fcCRl828lBlrSCa8QJY51mtNqTcHxabaXVLPgw/jPA5Nutujh6CbTdDgRzl9aSPYW/uuE7c4SffFUQFBAy6lg=="

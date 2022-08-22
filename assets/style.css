@@ -1791,3 +1791,8 @@
     background: -moz-linear-gradient(right, #20084a, #3463bc);
     background: linear-gradient(to left, #20084a, #3463bc);
   }
+
+  /* additional css */
+  div.currentWeather {
+    margin-bottom: 10px;
+  }

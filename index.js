@@ -49,9 +49,8 @@ var searchButton = document.querySelector('#search-button');
     //init
         function initSearchHistory() {
             var storedHistory = localStorage.getItem('search-history');
-            //check it - () is what you want to check, looks for a truthy response "if stored history is present"
             if (storedHistory) {
-                searchHistory = JSON.parse(storedHistory); //searchHistory is a global variable that we have access to anywhere
+                searchHistory = JSON.parse(storedHistory); 
                 
             }
             renderSearchHistory();
@@ -149,7 +148,9 @@ function renderForecast() {
             })
     }
     
+
     searchButton.addEventListener("click", appendToHistory);
+    
     initSearchHistory();
 
-    // searchButton.onClick() = appendToHistory;
+    // searchButton.onClick() = appendToHistory; - wasn't working
