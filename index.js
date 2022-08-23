@@ -1,9 +1,12 @@
+//variables
+
 var searchHistory = [];
 
-
+//OpenWeather API root and key
 var weatherApiRootUrl = 'https://api.openweathermap.org';
 var weatherApiKey ='cf30aa7d4098c837bc982a675f853adc'; 
 
+//variables used to search for cities 
 var searchForm = document.querySelector('#search-form');
 var searchInput = document.querySelector('#search-input');
 var searchHistoryContainer = document.querySelector('#history');
@@ -15,11 +18,85 @@ var forecaseContainer = document.querySelector('#forecast');
 var searchButton = document.querySelector('#search-button');
 
 
+//variables for the day p tags for the 5-day forecast
+var dayOne1 = document.querySelector(".dayOne")
+var dayTwo2 = document.querySelector(".dayTwo")
+var dayThree3 = document.querySelector(".dayThree")
+var dayFour4 = document.querySelector(".dayFour")
+var dayFive5 = document.querySelector(".dayFive")
+var currentDay = document.querySelector(".currentDay")
 
 
+//search, populate the current day
 
+searchButton.addEventListener("click", function () {
+    fetch(`${weatherApiRootUrl}/data/2.5/weather?q-?+${searchInput.value}+&appid=${weatherApiKey}+&units=imperial`)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data)
+            //data and formatting for the data from OpenWeather
+            var dayName = data["name"];
+            var currentDate = moment().format("dddd, MMMM");
+            var temp = "Temperature: " + data['main']['temp'] + " &#176F";
+            var windSpeed = "Wind: "  + data.wind.speed + " MPH"
+            var humidity = "Humidity: " + data['main']['humidity'] + "%";
+            var uvIndex = ["UV Index: "];
 
-//search
+            //take those variables, add them to elements
+            nameEl.innerHTML = nameValue;
+            tempEl.innerHTML = tempValue;
+            windEl.innerHTML = windValue;
+            humidityEL.innerHTML = humidityValue;
+            uvEL.innerHTML = uvValue;
+            todayDate.innerHTML = currentDate;
+        })
+})
+
+//copied and pasted from current day **SO IF SOMETHING IS BROKEN HERE IT'S BROKEN THERE MOST LIKELY
+searchButton.addEventListener("click", function () {
+    fetch(`${weatherApiRootUrl}/data/2.5/weather?q-?+${searchInput.value}+&appid=${weatherApiKey}+&units=imperial`)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data)
+            //data and formatting for the data from OpenWeather
+            var dayName = data["name"];
+            var currentDate = moment().format("dddd, MMMM");
+            var temp = "Temperature: " + data['main']['temp'] + " &#176F";
+            var windSpeed = "Wind: "  + data.wind.speed + " MPH"
+            var humidity = "Humidity: " + data['main']['humidity'] + "%";
+            // var uvIndex = ["UV Index: "];
+
+            //need to add all those variables to the elements for each day
+            //had monday tuesday, etc. but that doesn't work for looking at the forecast on different days
+            //changed the names of the variables for they aren't referring back to themselves
+
+            var dayOne = data["list"][5]["dt_txt"] + "Temp: " + data["list"][5]["main"]["temp"] + "&#176F " + "Wind: " + data["list"][5]["wind"]["speed"] + "MPH" + "Humidity: " + data["list"][5]["main"]["humidity"] + "%";
+            dayOne1.innerHTML = dayOne
+
+            var dayTwo = data["list"][5]["dt_txt"] + "Temp: " + data["list"][5]["main"]["temp"] + "&#176F " + "Wind: " + data["list"][5]["wind"]["speed"] + "MPH" + "Humidity: " + data["list"][5]["main"]["humidity"] + "%";
+            dayTwo2.innerHTML = dayTwo
+
+            var dayThree = data["list"][5]["dt_txt"] + "Temp: " + data["list"][5]["main"]["temp"] + "&#176F " + "Wind: " + data["list"][5]["wind"]["speed"] + "MPH" + "Humidity: " + data["list"][5]["main"]["humidity"] + "%";
+            dayThree3.innerHTML = dayThree
+
+            var dayFour = data["list"][5]["dt_txt"] + "Temp: " + data["list"][5]["main"]["temp"] + "&#176F " + "Wind: " + data["list"][5]["wind"]["speed"] + "MPH" + "Humidity: " + data["list"][5]["main"]["humidity"] + "%";
+            dayFour4.innerHTML = dayFour
+
+            var dayFive = data["list"][5]["dt_txt"] + "Temp: " + data["list"][5]["main"]["temp"] + "&#176F " + "Wind: " + data["list"][5]["wind"]["speed"] + "MPH" + "Humidity: " + data["list"][5]["main"]["humidity"] + "%";
+            dayFive5.innerHTML = dayFive
+            
+            // nameEl.innerHTML = nameValue;
+            // tempEl.innerHTML = tempValue;
+            // windEl.innerHTML = windValue;
+            // humidityEL.innerHTML = humidityValue;
+            // uvEL.innerHTML = uvValue;
+            // todayDate.innerHTML = currentDate;
+        })
+})
+
+//is currently adding [object Object] instead of the searched for city
+// searchButton.addEventListener("click", appendToHistory);
+
     //render - like a git 
         function renderSearchHistory() {
             //set to empty to avoid just adding to the prints 
@@ -65,6 +142,7 @@ var searchButton = document.querySelector('#search-button');
 function renderCurrentWeather(city, weather, timezone){
 
     //variables
+    var cityName = data["name"];
     var tempF = weather.temp;
     var windMph = weather.wind_speed;
     var humidity = weather.humidity;
@@ -149,7 +227,6 @@ function renderForecast() {
     }
     
 
-    searchButton.addEventListener("click", appendToHistory);
     
     initSearchHistory();
 
