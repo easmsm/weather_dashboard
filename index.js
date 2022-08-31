@@ -1,8 +1,5 @@
-// const express = require("express");
-// const moment = require("moment");
-// const momentTimezone = require("moment-timezone");
-
 var searchHistory = [];
+
 //OpenWeather API root and key
 
 var weatherApiRootUrl = 'https://api.openweathermap.org';
@@ -12,13 +9,13 @@ var searchForm = document.querySelector('#search-form');
 var searchInput = document.querySelector('#search-input');
 var searchHistoryContainer = document.querySelector('#history');
 
-//Current Forecast
+//Current Forecast Variables
 var todayContainer = document.querySelector('#today');
 
-//5-Day Forecast
 var forecastContainer = document.querySelector('#forecast');
 var searchButton = document.querySelector('#search-button');
 
+//5-Day Forecast Variables
 var dayOne1 = document.querySelector(".dayOne")
 var dayTwo2 = document.querySelector(".dayTwo")
 var dayThree3 = document.querySelector(".dayThree")
@@ -32,10 +29,11 @@ var weather = document.querySelector(".currentWeather");
 
 //search
     //render
-        function renderSearchHistory() {
-            searchHistoryContainer.innerHTML = '';
+    searchButton.addEventListener("click", function () {
+            // var renderSearchHistory = function() {
+            // searchHistoryContainer.innerHTML = '';
 
-            for (let i = searchHistory.length - 1; i >= 0; i--) {
+            // for (let i = searchHistory.length - 1; i >= 0; i--) {
                 var btn = document.createElement('button');
                 btn.setAttribute('type', 'button');
                 btn.setAttribute('aria-controls', 'today forecast');
@@ -44,56 +42,37 @@ var weather = document.querySelector(".currentWeather");
                 btn.setAttribute('data-search', searchHistory[i]);
                 btn.textContent = searchHistory[i];
                 searchHistoryContainer.append(btn);
-
-            //setting date and time
-            if(response.list[i].dt_txt.split(" ")[1] == "15:00:00")
-            {
-                //if time of report is 3pm, populate text areas accordingly
-                let day = response.list[i].dt_txt.split("-")[2].split(" ")[0];
-                let month = response.list[i].dt_txt.split("-")[1];
-                let year = response.list[i].dt_txt.split("-")[0];
-                $("#" + day_number + "date").text(month + "/" + day + "/" + year); 
-                let temp = Math.round(((response.list[i].main.temp - 273.15) *9/5+32));
-                $("#" + day_number + "five_day_temp").text("Temp: " + temp + String.fromCharCode(176)+"F");
-                $("#" + day_number + "five_day_humidity").text("Humidity: " + response.list[i].main.humidity);
-                $("#" + day_number + "five_day_icon").attr("src", "http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png");
-                console.log(response.list[i].dt_txt.split("-"));
-                console.log(day_number);
-                console.log(response.list[i].main.temp);
-                day_number++; 
-                        }   
-                 }
             }
-
-
+        )
+          
     //append
-        function appendToHistory(search) {
-            searchHistory.push(search);
-            localStorage.setItem('search-history', JSON.stringify(searchHistory));
-            renderSearchHistory();
-        }
-
+        // function appendToHistory(search) {
+        //     searchHistory.push(search);
+        //     localStorage.setItem('search-history', JSON.stringify(searchHistory));
+        //     renderSearchHistory();
+        // }
+        
     //init
-    function initSearchHistory() {
-        var storedHistory = localStorage.getItem('search-history');
-        if (storedHistory) {
-            searchHistory = JSON.parse(storedHistory);
-        }
-        renderSearchHistory();
-    }
+    // function initSearchHistory() {
+    //     var storedHistory = localStorage.getItem('search-history');
+    //     if (storedHistory) {
+    //         searchHistory = JSON.parse(storedHistory);
+    //     }
+    //     renderSearchHistory();
+    // }
 
 //forecast
 
     //render current forecast
-        searchButton.addEventListener("click", renderCurrentWeather (city, weather));
-
-        // function renderCurrentWeather(city, weather, timezone) {
-
-        function renderCurrentWeather(city, weather) {
-            fetch(`${weatherApiRootUrl}/data/2.5/weather?q=${searchInput}&appid=${weatherApiKey}`)
+        searchButton.addEventListener("click", function () {
+        // function renderCurrentWeather(city, weather) {
+            var searchInput = searchInput;
+            var apiUrl = `${weatherApiRootUrl}/data/2.5/weather?q=${searchInput}&appid=${weatherApiKey}`;
+            
+            fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    console.log(data);
                 var tempF = weather.temp; 
                 var windMph = weather.wind_speed;
                 var humidity = weather.humidity;
@@ -117,18 +96,25 @@ var weather = document.querySelector(".currentWeather");
                 todayDate.innerHTML = currentDate;
                 
             })
+        });
 
     //5-day forecast 
-    searchButton.addEventListener("click", renderForecast());
-    
-    function renderForecast() {
-        fetch(`${weatherApiRootUrl}/data/2.5/weather?q=${searchInput}&appid=${weatherApiKey}`)
-        .then(response => response.json())
-            .then(data => {
-                console.log(data)
+    searchButton.addEventListener("click", function() {
+        var searchInput = searchInput;
+        var apiUrl = `${weatherApiRootUrl}/data/2.5/weather?q=${searchInput}&appid=${weatherApiKey}`;
+        
+        fetch(apiUrl)
+        .then(function (res) {
+            return res.json();
         })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
 
-        function renderForecast() {
+        .then(function (data) {
+            renderItems();
+        })
+        .then (function renderForecast() {
             
             var firstDay = data["list"][5]["dt_txt"] + "<br>" + "<b>Temp: </b>" + data["list"][5]["main"]["temp"] + "&#176F. " + "<br>" + "<b>Wind: </b>" + data["list"][5]["wind"]["speed"] + " MPH" + "<br>" + "<b>Humidity: </b>" + data["list"][5]["main"]["humidity"] + "%";
             dayOne1.innerHTML = firstDay
@@ -144,11 +130,13 @@ var weather = document.querySelector(".currentWeather");
 
             var fifthDay = data["list"][37]["dt_txt"] + "<br>" + "<b>Temp: </b>" + data["list"][37]["main"]["temp"] + "&#176F. " + "<br>" + "<b>Wind: </b>" + data["list"][37]["wind"]["speed"] + " MPH" + "<br>" + "<b>Humidity: </b>" + data["list"][37]["main"]["humidity"] + "%";
             dayFive5.innerHTML = fifthDay;
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+    })
 
-        }
-    }
-
-    function renderItems(city, data) {
+    function renderItems() {
         renderCurrentWeather(city, data);
         renderForecast(data);
     }
@@ -167,22 +155,22 @@ var weather = document.querySelector(".currentWeather");
                 return res.json();
             })
             .then(function (data) {
-                renderItems(city, data);
+                renderItems();
             })
             .catch(function (err) {
                 console.error(err);
             });
     }
-
-
+    
     function fetchCoords (search) {
+        var searchInput = searchInput;
         var apiUrl = `${weatherApiRootUrl}/geo/1.0/direct?q=${searchInput}&limit=5&appid=${weatherApiKey}`;
 
         fetch(apiUrl)
-            .then(function (res) {
-                return res.json();
-            })
-            .then(function (data) {
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            }).then(function (data) {
                 if (!data[0]) {
                     alert('Please enter a valid city')
                 } else {
@@ -192,13 +180,16 @@ var weather = document.querySelector(".currentWeather");
             })
             .catch(function (err) {
                 console.error(err);
-            })
+            });
 
-            }
+    }})
 
-        }
+            // initSearchHistory();
+        
 
     //Click Handlers
-    // $("#search-button").on("click",displayWeather);
-    renderItems(city, data);
-    initSearchHistory();
+    // searchButton.addEventListener("click", ...)
+
+
+//reference
+//object.addEventListener("click", myScript);
