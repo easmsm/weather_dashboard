@@ -46,14 +46,30 @@ var weather = document.querySelector(".currentWeather");
     //append and render search history
     function appendToHistory(search) {
         searchHistory.push(search);
-        //add to local storage
         localStorage.setItem('search-history', JSON.stringify(searchHistory));
         renderSearchHistory();
     }
 
     //init search
+    function initSearchHistory() {
+        var storedHistory = localStorage.getItem('search-history');
+        if (storedHistory) {
+        searchHistory = JSON.parse(storedHistory);
+    }
+     renderSearchHistory();
+    }
 
     
+   
+    //if city hasn't been searched for already, search start a new search with new coordinates
+    function handleSubmit() {
+        if (!city.value) {
+            return
+        }
+        var search = city.value
+        fetchCoords(search)
+        city.value = ""
+    }
 
     searchButton.addEventListener("click", function () {
             // var renderSearchHistory = function() {
@@ -70,21 +86,7 @@ var weather = document.querySelector(".currentWeather");
             }
         )
           
-    //append
-        // function appendToHistory(search) {
-        //     searchHistory.push(search);
-        //     localStorage.setItem('search-history', JSON.stringify(searchHistory));
-        //     renderSearchHistory();
-        // }
-        
-    //init
-    // function initSearchHistory() {
-    //     var storedHistory = localStorage.getItem('search-history');
-    //     if (storedHistory) {
-    //         searchHistory = JSON.parse(storedHistory);
-    //     }
-    //     renderSearchHistory();
-    // }
+  
 
 //forecast
 
