@@ -42,6 +42,19 @@ var weather = document.querySelector(".currentWeather");
             btn.textContent = searchHistory[i]
             searchHistoryContainer.append(btn);
     }
+
+    //append and render search history
+    function appendToHistory(search) {
+        searchHistory.push(search);
+        //add to local storage
+        localStorage.setItem('search-history', JSON.stringify(searchHistory));
+        renderSearchHistory();
+    }
+
+    //init search
+
+    
+
     searchButton.addEventListener("click", function () {
             // var renderSearchHistory = function() {
             // searchHistoryContainer.innerHTML = '';
