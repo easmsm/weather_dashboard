@@ -1,7 +1,6 @@
 var searchHistory = [];
 
 //OpenWeather API root and key
-
 var weatherApiRootUrl = 'https://api.openweathermap.org';
 var weatherApiKey = 'cf30aa7d4098c837bc982a675f853adc';
 
@@ -11,19 +10,21 @@ var searchHistoryContainer = document.querySelector('#history');
 
 //Current Forecast Variables
 var todayContainer = document.querySelector('#today');
-
-var forecastContainer = document.querySelector('#forecast');
+var currentWeather = document.getElementById('current-weather');
+var forecastContainer = document.querySelector('forecast');
 var searchButton = document.querySelector('#search-button');
+var city = document.querySelector('#city');
 
-//5-Day Forecast Variables
-var dayOne1 = document.querySelector(".dayOne")
-var dayTwo2 = document.querySelector(".dayTwo")
-var dayThree3 = document.querySelector(".dayThree")
-var dayFour4 = document.querySelector(".dayFour")
-var dayFive5 = document.querySelector(".dayFive")
-var todayDate = document.querySelector(".currentDay")
-var city = document.querySelector(".name");
-var weather = document.querySelector(".currentWeather");
+//not using anymore
+// //5-Day Forecast Variables
+// var dayOne1 = document.querySelector(".dayOne")
+// var dayTwo2 = document.querySelector(".dayTwo")
+// var dayThree3 = document.querySelector(".dayThree")
+// var dayFour4 = document.querySelector(".dayFour")
+// var dayFive5 = document.querySelector(".dayFive")
+// var todayDate = document.querySelector(".currentDay")
+// var city = document.querySelector(".name");
+// var weather = document.querySelector(".currentWeather");
 
 
 
@@ -48,16 +49,18 @@ var weather = document.querySelector(".currentWeather");
         searchHistory.push(search);
         localStorage.setItem('search-history', JSON.stringify(searchHistory));
         renderSearchHistory();
+    
     }
 
     //init search
-    function initSearchHistory() {
+    // function initSearchHistory() {
+    initSearchHistory = function() {
         var storedHistory = localStorage.getItem('search-history');
         if (storedHistory) {
-        searchHistory = JSON.parse(storedHistory);
-    }
-     renderSearchHistory();
-    }
+            searchHistory = JSON.parse(storedHistory);
+        }
+        renderSearchHistory();
+    }};
    
     //if city hasn't been searched for already, search start a new search with new coordinates
     function handleSubmit() {
@@ -174,9 +177,6 @@ var weather = document.querySelector(".currentWeather");
     //         console.error(err);
     //     });
     // })
-
-
-
     
     function renderItems() {
         renderCurrentWeather(city, data);
@@ -261,9 +261,9 @@ var weather = document.querySelector(".currentWeather");
                 console.error(err);
             });
 
-    }})
+    }
 
 // added back in
 initSearchHistory();
-searchButton.addEventListener("click", handleSubmit
+searchButton.addEventListener("click", handleSubmit);
 
