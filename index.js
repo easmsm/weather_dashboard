@@ -15,8 +15,7 @@ var forecastContainer = document.querySelector('forecast');
 var searchButton = document.querySelector('#search-button');
 var city = document.querySelector('#city');
 
-//not using anymore
-// //5-Day Forecast Variables
+//5-Day Forecast Variables
 // var dayOne1 = document.querySelector(".dayOne")
 // var dayTwo2 = document.querySelector(".dayTwo")
 // var dayThree3 = document.querySelector(".dayThree")
